@@ -26,7 +26,14 @@ const db = mysql.createConnection(
 // Make db connection available to all modules 
 app.set('mysqlConnection', db);
 
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
+//  DELETE - console log incoming requests
+app.use((req, res, next) => {
+  console.log(`Incoming Request: ${req.method} ${req.url}`);
+  next();
+});
+
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
   
