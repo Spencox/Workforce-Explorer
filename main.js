@@ -32,6 +32,7 @@ const employeeDataQuestions = [
   const mainMenu = async () => {
     const { request } = await inquirer.prompt(employeeDataQuestions);
     
+    // process user request
     switch(request) {
       case 'View All Employees':
         const employeeList = await apiCalls.getAllEmployees(BASE_URL)
