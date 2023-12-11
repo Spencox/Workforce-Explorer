@@ -8,7 +8,7 @@ const app = express();
 // middleware 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-//app.use(routes);
+app.use(routes);
 
 // Connect to database
 const db = mysql.createConnection(
@@ -23,13 +23,8 @@ const db = mysql.createConnection(
     console.log(`Connected to the employee_manage_db database.`)
   );
 
-  // db.query(`
-  // SELECT * FROM employee`, (err, result) => {
-  //   if (err) {
-  //     console.log(err);
-  //   }
-  //   console.table(result);
-  // });
+// Make db connection available to all modules 
+app.set('mysqlConnection', db);
 
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
