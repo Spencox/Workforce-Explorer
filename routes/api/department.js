@@ -18,7 +18,6 @@ department.post('/', async (req, res) => {
     // connection to mysql db
     const db = req.app.get('mysqlConnection').promise();
     const newDepartment = req.body.name;
-    console.log(newDepartment);
     try {
         const [result, fields] = await db.query(`
         INSERT INTO department (name) VALUES (?)` , [newDepartment]);
@@ -34,7 +33,7 @@ department.get('/options', async (req, res) => {
     const db = req.app.get('mysqlConnection').promise();
 
     try {
-        const [result, fields] = await db.query('SELECT name FROM department');
+        const [result, fields] = await db.query('SELECT id, name FROM department');
         console.log(fields);
         res.json(result);
     } catch (error) {

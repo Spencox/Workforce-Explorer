@@ -15,6 +15,9 @@ const BASE_URL = 'http://localhost:3001/api/';
 
   // main program flow
   const mainMenu = async () => {
+    // set drop down list arrays
+    const departmentsAvailable = await questions.getDepartmentsOptions(BASE_URL);
+
     const { request } = await inquirer.prompt(questions.employeeDataQuestions);
     
     // process user request
@@ -25,6 +28,8 @@ const BASE_URL = 'http://localhost:3001/api/';
         mainMenu();
         break;
       case 'Add Employee':
+        const list = await questions.getDepartmentsOptions(BASE_URL);
+        console.log(list);
         mainMenu();
         break;
       case 'Update Employee Role':
@@ -36,6 +41,9 @@ const BASE_URL = 'http://localhost:3001/api/';
         mainMenu();
         break;
       case 'Add Role':
+        const roleQuestions = await questions.addRole(departmentsAvailable);
+        const { role, salary, dept } = await inquirer.prompt(roleQuestions);
+        await apiCalls.addDepartment(BASE_URL, role, salary, dept);
         mainMenu();
         break;
       case 'View All Departments':

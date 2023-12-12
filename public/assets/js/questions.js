@@ -1,5 +1,16 @@
-    // intro screen choices
-    const USER_OPTIONS = ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit']
+// intro screen choices
+const USER_OPTIONS = ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit']
+
+//let roleOptions = []
+
+const toArray = (arr) => {
+  console.log(arr);
+  let options = [];
+  arr.forEach(option => {
+    options.push(option.name)
+  })
+  return options
+}
 
 module.exports = {
     
@@ -20,7 +31,6 @@ module.exports = {
       ],
 
       addDepartmentQuestion: [
-        // dropdown menu for employee management program
         {
             type: 'input',
             message: 'What is the name of the department:',
@@ -34,23 +44,66 @@ module.exports = {
         }
       ],
 
+      addRole: async (departmentOptions) => {
+      
+        const addRoleQuestions = [
+          {
+            type: 'input',
+            message: 'What is the salary of the role:',
+            name: 'role',
+            validate(answer) {
+              if (answer.length < 1) {
+                return 'Please enter a valid role name';
+              }
+              return true;
+            },
+          },
+          {
+            type: 'input',
+            message: 'What is the name of the role:',
+            name: 'salary',
+            validate(answer) {
+              if (answer.length < 4) {
+                return 'Please enter a salary above 4 digits';
+              }
+              return true;
+            }
+          },
+          {
+            type: 'list',
+            message: 'What department does the role belong to:',
+            name: 'dept',
+            choices: departmentOptions.map(choice => ({ name: choice})),
+            validate(answer) {
+              if (answer.length < 1) {
+                return 'Please select one of the options';
+              }
+              return true;
+            }
+          }
+        ]
+        return addRoleQuestions
+      },
+     
     getDepartmentsOptions:  async (url) => {
         try {
-            const response = await fetch(`${url}/department`, {
+            const response = await fetch(`${url}/department/options`, {
                 method: 'GET',
                 headers: {
                   'Content-Type': 'application/json'
                 }
             });
             const data = await response.json();
-            return data;
+            const optionsArr = await toArray(data);
+            return optionsArr;
         } catch (error) {
             console.log(error);
         }
     },
-    
-    roleOptions:  [
-        'Sales Manager', 'Sales Rep', 'Marketing Manager', 'Marketing Spec', 'Financial Analyst', 'Accountant', 'HR Manager', 'HR Spec', 'IT Manager', 'Software Dev', 'Research Director', 'Research Asst', 'CS Manager', 'CS Rep'
-      ]
+
+    setDepartmentOptions: (currentDepartments) => {
+      departmentOptions = currentDepartments;
+    }
+
 }
  

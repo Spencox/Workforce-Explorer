@@ -45,7 +45,6 @@ module.exports = {
                 },
                 body: JSON.stringify(postBody)
             });
-            console.log(response.status)
             return response.status;
         } catch (error) {
             console.log(error);
@@ -62,6 +61,26 @@ module.exports = {
             });
             const data = await response.json();
             return data;
+        } catch (error) {
+            console.log(error);
+        }
+    },
+      // use department POST endpoint to create new department    
+      addRole:  async (url, newRole, newSalary, newDept) => {
+        const postBody = {
+            title: newRole,
+            salary: newSalary,
+            department_id: newDept
+        }
+        try {
+            const response = await fetch(`${url}/role`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postBody)
+            });
+            return response.status;
         } catch (error) {
             console.log(error);
         }
