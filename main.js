@@ -2,7 +2,6 @@
 const inquirer = require('inquirer');
 const questions = require('./public/assets/js/questions');
 const apiCalls = require('./public/assets/js/index');
-const { all } = require('./routes');
 
 const BASE_URL = 'http://localhost:3001/api/';
 
@@ -22,13 +21,15 @@ const employeeDataQuestions = [
     }
   ];
 
-  // start log questions
+  // start employee management system
   function init() {
     const programTitle = `Workforce Explorer`;
     console.log(programTitle);
     console.log(`Navigate and manage your workforce through simple command line interface:`);
     mainMenu();    
   }
+
+  // main program flow
   const mainMenu = async () => {
     const { request } = await inquirer.prompt(employeeDataQuestions);
     
@@ -59,6 +60,8 @@ const employeeDataQuestions = [
         mainMenu();
         break;
       case 'Add Department':
+        const choices = questions.getDepartmentsOptions(BASE_URL)
+        console.log(choices);
         mainMenu();
         break;
       case 'Quit':
