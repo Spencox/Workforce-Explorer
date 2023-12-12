@@ -34,7 +34,6 @@ department.get('/options', async (req, res) => {
 
     try {
         const [result, fields] = await db.query('SELECT id, name FROM department');
-        console.log(fields);
         res.json(result);
     } catch (error) {
         console.error(error);

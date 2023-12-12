@@ -43,7 +43,10 @@ const BASE_URL = 'http://localhost:3001/api/';
       case 'Add Role':
         const roleQuestions = await questions.addRole(departmentsAvailable);
         const { role, salary, dept } = await inquirer.prompt(roleQuestions);
-        await apiCalls.addDepartment(BASE_URL, role, salary, dept);
+        console.log("ROLE: " + role);
+        console.log("SALARY: " + salary);
+        console.log("DEPT: " + dept);
+        await apiCalls.addRole(BASE_URL, role, salary, dept);
         mainMenu();
         break;
       case 'View All Departments':

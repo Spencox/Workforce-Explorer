@@ -7,9 +7,8 @@ employee.get('/', async (req, res) => {
 
     try {
         const [result, fields] = await db.query('SELECT * FROM employee');
-        console.table(result);
-        res.status(200);
         res.json(result);
+        res.status(200);
     } catch (error) {
         console.error(error);
         res.status(500).send("Error executing get employees query");

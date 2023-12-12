@@ -49,7 +49,7 @@ module.exports = {
         const addRoleQuestions = [
           {
             type: 'input',
-            message: 'What is the salary of the role:',
+            message: 'What is the name of the role:',
             name: 'role',
             validate(answer) {
               if (answer.length < 1) {
@@ -60,7 +60,7 @@ module.exports = {
           },
           {
             type: 'input',
-            message: 'What is the name of the role:',
+            message: 'What is the salary of the role:',
             name: 'salary',
             validate(answer) {
               if (answer.length < 4) {
@@ -73,12 +73,10 @@ module.exports = {
             type: 'list',
             message: 'What department does the role belong to:',
             name: 'dept',
-            choices: departmentOptions.map(choice => ({ name: choice})),
-            validate(answer) {
-              if (answer.length < 1) {
-                return 'Please select one of the options';
-              }
-              return true;
+            choices: departmentOptions.map(choice => ({ name: choice.name})),
+            filter(answer) {
+              const deptId = departmentOptions.find(dept => dept.name === answer);
+              return deptId ? deptId.id : null;
             }
           }
         ]
@@ -94,8 +92,8 @@ module.exports = {
                 }
             });
             const data = await response.json();
-            const optionsArr = await toArray(data);
-            return optionsArr;
+            //const optionsArr = await toArray(data);
+            return data;
         } catch (error) {
             console.log(error);
         }

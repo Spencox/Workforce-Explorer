@@ -20,7 +20,7 @@ role.post('/', async (req, res) => {
     const db = req.app.get('mysqlConnection').promise();
     try {
         const [result, fields] = await db.query(`
-        INSERT INTO role (title, salary, department_id ) VALUES (?, ?, ?)` , [req.body.title], [req.body.salary], req.body.department_id);
+        INSERT INTO role (title, salary, department_id ) VALUES (?, ?, ?)` , [req.body.title, req.body.salary, req.body.department_id]);
         res.status(201).send("Role created successfully");
     } catch (error) {
         console.error(error);
