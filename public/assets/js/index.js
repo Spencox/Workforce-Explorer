@@ -65,7 +65,7 @@ module.exports = {
             console.log(error);
         }
     },
-      // use department POST endpoint to create new department    
+      // use role POST endpoint to create new role    
       addRole:  async (url, newRole, newSalary, newDept) => {
         const postBody = {
             title: newRole,
@@ -74,6 +74,27 @@ module.exports = {
         }
         try {
             const response = await fetch(`${url}/role`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postBody)
+            });
+            return response.status;
+        } catch (error) {
+            console.log(error);
+        }
+    },
+     // use employee POST endpoint to create new employee
+     addEmployee:  async (url, newFirstName, newLastName, newRole, newManager) => {
+        const postBody = {
+            first_name: newFirstName,
+            last_name: newLastName,
+            role_id: newRole,
+            manager_id: newManager
+        }
+        try {
+            const response = await fetch(`${url}/employee`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'

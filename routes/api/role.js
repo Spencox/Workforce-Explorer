@@ -6,12 +6,32 @@ role.get('/', async (req, res) => {
     const db = req.app.get('mysqlConnection').promise();
 
     try {
-        const [result, fields] = await db.query('SELECT * FROM role');
-        console.table(result);
+        const [result, fields] = await db.query(`
+        SELECT 
+            role.id, 
+            role.title, 
+            department.name AS department, 
+            role.salary
+        FROM role
+        JOIN department ON role.department_id = department.id;
+        `);
         res.json(result);
     } catch (error) {
         console.error(error);
         res.status(500).send("Error executing get employees query");
+    }
+});
+
+role.get('/options', async (req, res) => {
+    // connection to mysql db
+    const db = req.app.get('mysqlConnection').promise();
+
+    try {
+        const [result, fields] = await db.query('SELECT id, title, department_id FROM role');
+        res.json(result);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error executing get role options");
     }
 });
 

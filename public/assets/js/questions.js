@@ -82,6 +82,55 @@ module.exports = {
         ]
         return addRoleQuestions
       },
+
+      addEmployee: async (roleOptions, employeeOptions) => {
+      
+        const addEmployeeQuestions = [
+          {
+            type: 'input',
+            message: 'What is the employee\'s first name:',
+            name: 'firstName',
+            validate(answer) {
+              if (answer.length < 4) {
+                return 'Please enter a salary above 4 digits';
+              }
+              return true;
+            }
+          },
+          {
+            type: 'input',
+            message: 'What is the employee\'s last name:',
+            name: 'lastName',
+            validate(answer) {
+              if (answer.length < 1) {
+                return 'Please enter a last name > than 1 character';
+              }
+              return true;
+            }
+          },
+          {
+            type: 'list',
+            message: 'What is the employee\'s role:',
+            name: 'employeeRole',
+            choices: roleOptions.map(choice => ({ name: choice.title})),
+            filter(answer) {
+              const roleId = roleOptions.find(role => role.title === answer);
+              return roleId ? roleId.id : null;
+            }
+          },
+          {
+            type: 'list',
+            message: 'Who is the employee\'s manager:',
+            name: 'manager',
+            choices: employeeOptions.map(choice => ({ name: `${choice.first_name} ${choice.last_name}`})),
+            filter(answer) {
+              const managerId = employeeOptions.find(manager => `${manager.first_name} ${manager.last_name}` === answer);
+              return managerId ? managerId.id : null;
+            }
+          }
+        ]
+        return addEmployeeQuestions
+      },
      
     getDepartmentsOptions:  async (url) => {
         try {
@@ -99,9 +148,37 @@ module.exports = {
         }
     },
 
-    setDepartmentOptions: (currentDepartments) => {
-      departmentOptions = currentDepartments;
+    getRolesOptions:  async (url) => {
+      try {
+          const response = await fetch(`${url}/role/options`, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+          });
+          const data = await response.json();
+          return data;
+      } catch (error) {
+          console.log(error);
+      }
+  },
+
+  getEmployeeOptions:  async (url) => {
+    try {
+        const response = await fetch(`${url}/employee/options`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log(error);
     }
+}
+
+
 
 }
  
