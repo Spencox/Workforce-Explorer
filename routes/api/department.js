@@ -14,6 +14,21 @@ department.get('/', async (req, res) => {
     }
 });
 
+department.post('/', async (req, res) => {
+    // connection to mysql db
+    const db = req.app.get('mysqlConnection').promise();
+    const newDepartment = req.body.name;
+    console.log(newDepartment);
+    try {
+        const [result, fields] = await db.query(`
+        INSERT INTO department (name) VALUES (?)` , [newDepartment]);
+        res.status(201).send("Department created successfully");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error creating department ");
+    }
+});
+
 department.get('/options', async (req, res) => {
     // connection to mysql db
     const db = req.app.get('mysqlConnection').promise();

@@ -5,22 +5,6 @@ const apiCalls = require('./public/assets/js/index');
 
 const BASE_URL = 'http://localhost:3001/api/';
 
-const employeeDataQuestions = [
-    // dropdown menu for employee management program
-    {
-        type: 'list',
-        message: 'What would you like to do:',
-        name: 'request',
-        choices: questions.userOptions.map(choice => ({ name: choice})),
-        validate(answer) {
-          if (answer.length < 1) {
-            return 'Please select one of the options';
-          }
-          return true;
-        },
-    }
-  ];
-
   // start employee management system
   function init() {
     const programTitle = `Workforce Explorer`;
@@ -31,7 +15,7 @@ const employeeDataQuestions = [
 
   // main program flow
   const mainMenu = async () => {
-    const { request } = await inquirer.prompt(employeeDataQuestions);
+    const { request } = await inquirer.prompt(questions.employeeDataQuestions);
     
     // process user request
     switch(request) {
@@ -60,8 +44,8 @@ const employeeDataQuestions = [
         mainMenu();
         break;
       case 'Add Department':
-        const choices = questions.getDepartmentsOptions(BASE_URL)
-        console.log(choices);
+        const { department } = await inquirer.prompt(questions.addDepartmentQuestion);
+        await apiCalls.addDepartment(BASE_URL, department);
         mainMenu();
         break;
       case 'Quit':

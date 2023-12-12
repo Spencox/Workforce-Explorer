@@ -31,6 +31,26 @@ module.exports = {
             console.log(error);
         }
     },
+
+    // use department POST endpoint to create new department    
+    addDepartment:  async (url, newDepartment) => {
+        const postBody = {
+            name: newDepartment
+        }
+        try {
+            const response = await fetch(`${url}/department`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postBody)
+            });
+            console.log(response.status)
+            return response.status;
+        } catch (error) {
+            console.log(error);
+        }
+    },
      // use role GET endpoint to return all values    
      getAllRoles:  async (url) => {
         try {
