@@ -1,7 +1,9 @@
+// import modules
 const express = require('express');
 const routes = require('./routes');
 const mysql = require('mysql2');
 
+// set up port and start express app
 const PORT = process.env.PORT || 3001;
 const app = express();
 
@@ -25,13 +27,6 @@ const db = mysql.createConnection(
 
 // Make db connection available to all modules 
 app.set('mysqlConnection', db);
-
-//  DELETE - console log incoming requests
-app.use((req, res, next) => {
-  console.log(`Incoming Request: ${req.method} ${req.url}`);
-  next();
-});
-
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

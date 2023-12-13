@@ -1,4 +1,4 @@
-const mysql = require('mysql2/promise');
+// api call functions using async fetch
 
 module.exports = {
     // use employee GET endpoint to return all values    
@@ -31,7 +31,6 @@ module.exports = {
             console.log(error);
         }
     },
-
     // use department POST endpoint to create new department    
     addDepartment:  async (url, newDepartment) => {
         const postBody = {
@@ -106,7 +105,6 @@ module.exports = {
             console.log(error);
         }
     },
-
      // use employee POST endpoint to create new employee
      updateEmployeeRole:  async (url, employee, updatedRole) => {
         const postBody = {

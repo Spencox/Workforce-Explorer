@@ -1,6 +1,8 @@
+// import modules
 const employee = require('express').Router();
 const mysql = require('mysql2/promise');
 
+// returns list of all employees and joins their role and departments
 employee.get('/', async (req, res) => {
     // connection to mysql db
     const db = req.app.get('mysqlConnection').promise();
@@ -27,6 +29,7 @@ employee.get('/', async (req, res) => {
     }
 });
 
+// returns list of employees to be used in questions
 employee.get('/options', async (req, res) => {
     // connection to mysql db
     const db = req.app.get('mysqlConnection').promise();
@@ -40,6 +43,7 @@ employee.get('/options', async (req, res) => {
     }
 });
 
+// posts new employee to employee table
 employee.post('/', async (req, res) => {
     // connection to mysql db
     const db = req.app.get('mysqlConnection').promise();
@@ -53,6 +57,7 @@ employee.post('/', async (req, res) => {
     }
 });
 
+// updates employee role by id sent
 employee.put('/:id', async (req, res) => {
     // connection to mysql db
     const db = req.app.get('mysqlConnection').promise();

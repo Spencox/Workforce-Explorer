@@ -1,6 +1,8 @@
+// import modules
 const role = require('express').Router();
 const mysql = require('mysql2/promise');
 
+// returns all roles 
 role.get('/', async (req, res) => {
     // connection to mysql db
     const db = req.app.get('mysqlConnection').promise();
@@ -22,6 +24,7 @@ role.get('/', async (req, res) => {
     }
 });
 
+// returns list of roles to be used in questions
 role.get('/options', async (req, res) => {
     // connection to mysql db
     const db = req.app.get('mysqlConnection').promise();
@@ -35,6 +38,7 @@ role.get('/options', async (req, res) => {
     }
 });
 
+// posts new role to roles table
 role.post('/', async (req, res) => {
     // connection to mysql db
     const db = req.app.get('mysqlConnection').promise();
