@@ -18,6 +18,7 @@ const BASE_URL = 'http://localhost:3001/api/';
     // set drop down list arrays
     const departmentsAvailable = await questions.getDepartmentsOptions(BASE_URL);
     const rolesAvailable = await questions.getRolesOptions(BASE_URL);
+    
     const employeesAvailable = await questions.getEmployeeOptions(BASE_URL);
 
     // get main menu questions
@@ -33,10 +34,6 @@ const BASE_URL = 'http://localhost:3001/api/';
       case 'Add Employee':
         const employeeQuestions = await questions.addEmployee(rolesAvailable, employeesAvailable);
         const { firstName, lastName, employeeRole, manager } = await inquirer.prompt(employeeQuestions);
-        console.log("FIRSTNAME: " + firstName);
-        console.log("LASTNAME: " + lastName);
-        console.log("ROLE: " + employeeRole);
-        console.log("MANAGER: " + manager);
         await apiCalls.addEmployee(BASE_URL, firstName, lastName, employeeRole, manager);
         mainMenu();
         break;

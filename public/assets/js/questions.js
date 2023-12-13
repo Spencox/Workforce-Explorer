@@ -122,7 +122,7 @@ module.exports = {
             type: 'list',
             message: 'Who is the employee\'s manager:',
             name: 'manager',
-            choices: employeeOptions.map(choice => ({ name: `${choice.first_name} ${choice.last_name}`})),
+            choices: [...employeeOptions.map(choice => ({ name: `${choice.first_name} ${choice.last_name}` })), { name: 'None' }],
             filter(answer) {
               const managerId = employeeOptions.find(manager => `${manager.first_name} ${manager.last_name}` === answer);
               return managerId ? managerId.id : null;
@@ -177,8 +177,6 @@ module.exports = {
         console.log(error);
     }
 }
-
-
 
 }
  
