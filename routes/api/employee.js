@@ -53,4 +53,24 @@ employee.post('/', async (req, res) => {
     }
 });
 
+employee.put('/:id', async (req, res) => {
+    // connection to mysql db
+    const db = req.app.get('mysqlConnection').promise();
+    try {
+        const updateQuery = `
+        UPDATE employee
+        SET role_id = ?
+        WHERE id = ?
+        `;
+        await db.query(updateQuery, [
+            req.body.role_id,
+            req.params.id
+        ]);
+        res.status(204).send("Employee updated successfully");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error creating role");
+    }
+});
+
 module.exports = employee;

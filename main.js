@@ -18,7 +18,6 @@ const BASE_URL = 'http://localhost:3001/api/';
     // set drop down list arrays
     const departmentsAvailable = await questions.getDepartmentsOptions(BASE_URL);
     const rolesAvailable = await questions.getRolesOptions(BASE_URL);
-    
     const employeesAvailable = await questions.getEmployeeOptions(BASE_URL);
 
     // get main menu questions
@@ -38,6 +37,11 @@ const BASE_URL = 'http://localhost:3001/api/';
         mainMenu();
         break;
       case 'Update Employee Role':
+        const updateRoleQuestions = await questions.updateEmployeeRole(rolesAvailable, employeesAvailable);
+        const { employeeToUpdate, updatedEmployeeRole } = await inquirer.prompt(updateRoleQuestions);
+        console.log("EMPLOYEE: " + employeeToUpdate);
+        console.log("NEW ROLE: " + updatedEmployeeRole);
+        await apiCalls.updateEmployeeRole(BASE_URL,employeeToUpdate, updatedEmployeeRole);
         mainMenu();
         break;
       case 'View All Roles':
@@ -48,9 +52,6 @@ const BASE_URL = 'http://localhost:3001/api/';
       case 'Add Role':
         const roleQuestions = await questions.addRole(departmentsAvailable);
         const { role, salary, dept } = await inquirer.prompt(roleQuestions);
-        console.log("ROLE: " + role);
-        console.log("SALARY: " + salary);
-        console.log("DEPT: " + dept);
         await apiCalls.addRole(BASE_URL, role, salary, dept);
         mainMenu();
         break;

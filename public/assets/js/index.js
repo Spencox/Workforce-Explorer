@@ -106,5 +106,24 @@ module.exports = {
             console.log(error);
         }
     },
+
+     // use employee POST endpoint to create new employee
+     updateEmployeeRole:  async (url, employee, updatedRole) => {
+        const postBody = {
+            role_id: updatedRole
+        }
+        try {
+            const response = await fetch(`${url}/employee/${employee}`, {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postBody)
+            });
+            return response.status;
+        } catch (error) {
+            console.log(error);
+        }
+    },
 }
  

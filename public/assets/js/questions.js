@@ -1,34 +1,23 @@
 // intro screen choices
 const USER_OPTIONS = ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit']
 
-//let roleOptions = []
-
-const toArray = (arr) => {
-  console.log(arr);
-  let options = [];
-  arr.forEach(option => {
-    options.push(option.name)
-  })
-  return options
-}
-
 module.exports = {
     
-    employeeDataQuestions: [
-        // dropdown menu for employee management program
-        {
-            type: 'list',
-            message: 'What would you like to do:',
-            name: 'request',
-            choices: USER_OPTIONS.map(choice => ({ name: choice})),
-            validate(answer) {
-              if (answer.length < 1) {
-                return 'Please select one of the options';
-              }
-              return true;
-            },
-        }
-      ],
+  employeeDataQuestions: [
+      // dropdown menu for employee management program
+      {
+          type: 'list',
+          message: 'What would you like to do:',
+          name: 'request',
+          choices: USER_OPTIONS.map(choice => ({ name: choice})),
+          validate(answer) {
+            if (answer.length < 1) {
+              return 'Please select one of the options';
+            }
+            return true;
+          },
+      }
+    ],
 
       addDepartmentQuestion: [
         {
@@ -176,7 +165,33 @@ module.exports = {
     } catch (error) {
         console.log(error);
     }
-}
+},
 
+updateEmployeeRole: async (roleOptions, employeeOptions) => {
+      
+  const updateEmployeeRoleQuestions = [
+    {
+      type: 'list',
+      message: 'What employee would you like to update a role for:',
+      name: 'employeeToUpdate',
+      choices: employeeOptions.map(choice => ({ name: `${choice.first_name} ${choice.last_name}` })),
+      filter(answer) {
+        const managerId = employeeOptions.find(manager => `${manager.first_name} ${manager.last_name}` === answer);
+        return managerId ? managerId.id : null;
+      }
+    },
+    {
+      type: 'list',
+      message: 'What is the employee\'s new role:',
+      name: 'updatedEmployeeRole',
+      choices: roleOptions.map(choice => ({ name: choice.title})),
+      filter(answer) {
+        const roleId = roleOptions.find(role => role.title === answer);
+        return roleId ? roleId.id : null;
+      }
+    },
+  ]
+  return updateEmployeeRoleQuestions
+}
 }
  
