@@ -1,6 +1,8 @@
+// import modules
 const employee = require('express').Router();
 const mysql = require('mysql2/promise');
 
+// returns list of all employees and joins their role and departments
 employee.get('/', async (req, res) => {
     // connection to mysql db
     const db = req.app.get('mysqlConnection').promise();
@@ -27,6 +29,7 @@ employee.get('/', async (req, res) => {
     }
 });
 
+// returns list of employees to be used in questions
 employee.get('/options', async (req, res) => {
     // connection to mysql db
     const db = req.app.get('mysqlConnection').promise();
@@ -40,6 +43,7 @@ employee.get('/options', async (req, res) => {
     }
 });
 
+// posts new employee to employee table
 employee.post('/', async (req, res) => {
     // connection to mysql db
     const db = req.app.get('mysqlConnection').promise();
@@ -47,6 +51,27 @@ employee.post('/', async (req, res) => {
         const [result, fields] = await db.query(`
         INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)` , [req.body.first_name, req.body.last_name, req.body.role_id, req.body.manager_id]);
         res.status(201).send("Employee created successfully");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error creating role");
+    }
+});
+
+// updates employee role by id sent
+employee.put('/:id', async (req, res) => {
+    // connection to mysql db
+    const db = req.app.get('mysqlConnection').promise();
+    try {
+        const updateQuery = `
+        UPDATE employee
+        SET role_id = ?
+        WHERE id = ?
+        `;
+        await db.query(updateQuery, [
+            req.body.role_id,
+            req.params.id
+        ]);
+        res.status(204).send("Employee updated successfully");
     } catch (error) {
         console.error(error);
         res.status(500).send("Error creating role");
